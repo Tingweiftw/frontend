@@ -66,6 +66,10 @@ function Todo() {
     year: "numeric",
   } as const;
 
+  useEffect(() => {
+    populateTodos();
+  }, []);
+
   const populateTodos = useCallback(async () => {
     const result = await axios.get(`${CONFIG.API_ENDPOINT}/todos`);
     setTodoItems(result.data);
