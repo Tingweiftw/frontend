@@ -23,18 +23,11 @@ export type TodoItemProps = {
 
 function TodoItem(props: TodoItemProps) {
   const [done, setDone] = useState(props.done);
-  const updateTodoItem = useCallback(async () => {
-    await axios.put(`${CONFIG.API_ENDPOINT}/todos/${props.id}`, {
+  const updateTodoItem = () =>
+    axios.put(`${CONFIG.API_ENDPOINT}/todos/${props.id}`, {
       id: props.id,
       description: props.description,
-      done: done,
     });
-  }, [props.description, props.id, done]);
-
-  const deleteTodoItem = useCallback(async () => {
-    await axios.delete(`${CONFIG.API_ENDPOINT}/todos/${props.id}`);
-    props.refreshToDos();
-  }, [props.id, props.refreshToDos]);
 
   useEffect(() => {
     /* mark the todo when done (as a dependency) changes */
@@ -53,12 +46,7 @@ function TodoItem(props: TodoItemProps) {
         </td>
         <td width={"100%"}>{props.description}</td>
         <td>
-          <img
-            alt="delete-icon"
-            src={crossIcon}
-            onClick={deleteTodoItem}
-            className="delete-icon"
-          />
+          <img alt="delete-icon" src={crossIcon} className="delete-icon" />
         </td>
       </tr>
     </>
@@ -84,17 +72,8 @@ function Todo() {
   }, []);
 
   async function submitNewTodo() {
-    // Add a check here
-    if (newTodoDescription.trim() !== "") {
-      const newTodo = {
-        description: newTodoDescription,
-      };
-      await axios.post(`${CONFIG.API_ENDPOINT}/todos`, newTodo);
-      await populateTodos();
-      setNewTodoDescription("");
-    } else {
-      alert("Invalid Todo input!");
-    }
+    await axios.post(`${CONFIG.API_ENDPOINT}/todos`, newTodoDescription);
+    // to implement: repopulate todo list after submitting a new todo
   }
 
   return (
