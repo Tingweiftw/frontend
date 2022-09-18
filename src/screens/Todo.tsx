@@ -15,13 +15,44 @@ export type TodoItemProps = {
 };
 
 function TodoItem(props: TodoItemProps) {
+  const [done, setDone] = useState(props.done);
+
+  const updateTodoItem = useCallback(async () => {
+    await axios.put(`${CONFIG.API_ENDPOINT}/todos/${props.id}`, {
+      id: props.id,
+      description: props.description,
+      done: done,
+    });
+  }, [props.description, props.id, done]);
+
+  const deleteTodoItem = useCallback(async () => {
+    await axios.delete(`${CONFIG.API_ENDPOINT}/todos/${props.id}`);
+    props.refreshToDos();
+  }, [props.id, props.refreshToDos]);
+
+  useEffect(() => {
+    /* mark the todo when done (as a dependency) changes */
+    console.log(props.description, "is marked as ", done ? "done" : "undone");
+    updateTodoItem();
+  }, [props.description, done, updateTodoItem]);
+
   return (
     <>
       <tr>
-        <td>{/* insert checkbox here  */}</td>
+        <td>
+          <FormCheck
+            onChange={(event) => setDone(event.currentTarget.checked)}
+            checked={done}
+          />
+        </td>
         <td width={"100%"}>{props.description}</td>
         <td>
-          <img alt="delete-icon" src={crossIcon} className="delete-icon" />
+          <img
+            alt="delete-icon"
+            src={crossIcon}
+            onClick={deleteTodoItem}
+            className="delete-icon"
+          />
         </td>
       </tr>
     </>
