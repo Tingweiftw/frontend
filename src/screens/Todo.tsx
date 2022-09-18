@@ -39,10 +39,7 @@ function TodoItem(props: TodoItemProps) {
     <>
       <tr>
         <td>
-          <FormCheck
-            onChange={(event) => setDone(event.currentTarget.checked)}
-            checked={done}
-          />
+          <FormCheck />
         </td>
         <td width={"100%"}>{props.description}</td>
         <td>
