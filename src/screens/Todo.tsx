@@ -1,14 +1,7 @@
 import axios from "axios";
 import { useCallback, useEffect, useState } from "react";
 
-import {
-  Container,
-  Row,
-  Col,
-  Button,
-  Form,
-  FormCheck,
-} from "@govtechsg/sgds-react";
+import { Container, Button, Form, FormCheck } from "@govtechsg/sgds-react";
 
 import CONFIG from "../config";
 import Table from "../components/Table";
@@ -79,53 +72,49 @@ function Todo() {
 
   return (
     <Container>
-      <Row>
-        <Col>
-          <div className="has-background-gradient">
-            <h2>Today</h2>
-            {today.toLocaleDateString("en-UK", dateOptions)}
-          </div>
-          <div>
-            <Form>
-              <Table isFullwidth isHoverable isHorizontal isBordered>
-                <thead>
-                  <tr>
-                    <th>Done</th>
-                    <th>Description</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {Object.keys(todoItems).map((item) => (
-                    <TodoItem
-                      key={todoItems[item].id}
-                      {...todoItems[item]}
-                      refreshToDos={populateTodos}
-                    />
-                  ))}
-                  <tr>
-                    <td>
-                      <FormCheck disabled />
-                    </td>
-                    <td width={"100%"}>
-                      <input
-                        className="text table-input"
-                        placeholder="Enter new to-do here"
-                        id="newTodoDescription"
-                        type="text"
-                        value={newTodoDescription}
-                        onChange={(event) => {
-                          setNewTodoDescription(event.currentTarget.value);
-                        }}
-                      ></input>
-                    </td>
-                  </tr>
-                </tbody>
-              </Table>
-            </Form>
-            {/* to implement button */}
-          </div>
-        </Col>
-      </Row>
+      <div className="has-background-gradient">
+        <h2>Today</h2>
+        {today.toLocaleDateString("en-UK", dateOptions)}
+      </div>
+      <div>
+        <Form>
+          <Table isFullwidth isHoverable isHorizontal isBordered>
+            <thead>
+              <tr>
+                <th>Done</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              {Object.keys(todoItems).map((item) => (
+                <TodoItem
+                  key={todoItems[item].id}
+                  {...todoItems[item]}
+                  refreshToDos={populateTodos}
+                />
+              ))}
+              <tr>
+                <td>
+                  <FormCheck disabled />
+                </td>
+                <td width={"100%"}>
+                  <input
+                    className="text table-input"
+                    placeholder="Enter new to-do here"
+                    id="newTodoDescription"
+                    type="text"
+                    value={newTodoDescription}
+                    onChange={(event) => {
+                      setNewTodoDescription(event.currentTarget.value);
+                    }}
+                  ></input>
+                </td>
+              </tr>
+            </tbody>
+          </Table>
+        </Form>
+        {/* to implement button */}
+      </div>
     </Container>
   );
 }
