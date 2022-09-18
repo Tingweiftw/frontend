@@ -15,25 +15,10 @@ export type TodoItemProps = {
 };
 
 function TodoItem(props: TodoItemProps) {
-  const [done, setDone] = useState(props.done);
-  const updateTodoItem = () =>
-    axios.put(`${CONFIG.API_ENDPOINT}/todos/${props.id}`, {
-      id: props.id,
-      description: props.description,
-    });
-
-  useEffect(() => {
-    /* mark the todo when done (as a dependency) changes */
-    console.log(props.description, "is marked as ", done ? "done" : "undone");
-    updateTodoItem();
-  }, [props.description, done, updateTodoItem]);
-
   return (
     <>
       <tr>
-        <td>
-          <FormCheck />
-        </td>
+        <td></td>
         <td width={"100%"}>{props.description}</td>
         <td>
           <img alt="delete-icon" src={crossIcon} className="delete-icon" />
