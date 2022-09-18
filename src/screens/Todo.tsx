@@ -18,7 +18,7 @@ function TodoItem(props: TodoItemProps) {
   return (
     <>
       <tr>
-        <td></td>
+        <td>{/* insert checkbox here  */}</td>
         <td width={"100%"}>{props.description}</td>
         <td>
           <img alt="delete-icon" src={crossIcon} className="delete-icon" />
@@ -33,6 +33,7 @@ function Todo() {
     {}
   );
   const [newTodoDescription, setNewTodoDescription] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   const today = new Date();
   const dateOptions = {
@@ -50,7 +51,16 @@ function Todo() {
     setTodoItems(result.data);
   }, []);
 
-  // to implement: function that submits new to-dos
+  async function submitNewTodo() {
+    setIsLoading(true);
+    const newTodo = {
+      description: newTodoDescription,
+    };
+    await axios.post(`${CONFIG.API_ENDPOINT}/todos`, newTodo);
+    await populateTodos();
+    setNewTodoDescription("");
+    setIsLoading(false);
+  }
 
   return (
     <Container>
@@ -58,45 +68,50 @@ function Todo() {
         <h2>Today</h2>
         {today.toLocaleDateString("en-UK", dateOptions)}
       </div>
-      <div>
-        <Form>
-          <Table isFullwidth isHoverable isHorizontal isBordered>
-            <thead>
-              <tr>
-                <th>Done</th>
-                <th>Description</th>
-              </tr>
-            </thead>
-            <tbody>
-              {Object.keys(todoItems).map((item) => (
-                <TodoItem
-                  key={todoItems[item].id}
-                  {...todoItems[item]}
-                  refreshToDos={populateTodos}
-                />
-              ))}
-              <tr>
-                <td>
-                  <FormCheck disabled />
-                </td>
-                <td width={"100%"}>
-                  <input
-                    className="text table-input"
-                    placeholder="Enter new to-do here"
-                    id="newTodoDescription"
-                    type="text"
-                    value={newTodoDescription}
-                    onChange={(event) => {
-                      setNewTodoDescription(event.currentTarget.value);
-                    }}
-                  ></input>
-                </td>
-              </tr>
-            </tbody>
-          </Table>
-        </Form>
-        {/* to implement: button */}
-      </div>
+      <Form>
+        <Table isFullwidth isHoverable isHorizontal isBordered>
+          <thead>
+            <tr>
+              <th>Done</th>
+              <th>Description</th>
+            </tr>
+          </thead>
+          <tbody>
+            {Object.keys(todoItems).map((item) => (
+              <TodoItem
+                key={todoItems[item].id}
+                {...todoItems[item]}
+                refreshToDos={populateTodos}
+              />
+            ))}
+            <tr>
+              <td>
+                <FormCheck disabled />
+              </td>
+              <td width={"100%"}>
+                <input
+                  className="text table-input"
+                  placeholder="Enter new to-do here"
+                  id="newTodoDescription"
+                  type="text"
+                  value={newTodoDescription}
+                  onChange={(event) => {
+                    setNewTodoDescription(event.currentTarget.value);
+                  }}
+                ></input>
+              </td>
+            </tr>
+          </tbody>
+        </Table>
+      </Form>
+      <Button
+        size="sm"
+        variant="primary"
+        onClick={submitNewTodo}
+        disabled={isLoading}
+      >
+        {isLoading ? "loading..." : "Add"}
+      </Button>
     </Container>
   );
 }
