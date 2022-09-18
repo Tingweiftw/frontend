@@ -125,7 +125,8 @@ function Todo() {
                 </tbody>
               </Table>
             </Form>
-            <Button size="sm" variant="primary" onClick={submitNewTodo}>
+            {/* to implement: button should be able to submit new todo on click */}
+            <Button size="sm" variant="primary">
               Add
             </Button>
           </div>
