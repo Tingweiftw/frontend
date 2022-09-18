@@ -122,10 +122,7 @@ function Todo() {
                 </tbody>
               </Table>
             </Form>
-            {/* to implement: button should be able to submit new todo on click */}
-            <Button size="sm" variant="primary">
-              Add
-            </Button>
+            {/* to implement button */}
           </div>
         </Col>
       </Row>
