@@ -65,10 +65,7 @@ function Todo() {
     setTodoItems(result.data);
   }, []);
 
-  async function submitNewTodo() {
-    await axios.post(`${CONFIG.API_ENDPOINT}/todos`, newTodoDescription);
-    // to implement: repopulate todo list after submitting a new todo
-  }
+  // to implement: function that submits new to-dos
 
   return (
     <Container>
@@ -113,7 +110,7 @@ function Todo() {
             </tbody>
           </Table>
         </Form>
-        {/* to implement button */}
+        {/* to implement: button */}
       </div>
     </Container>
   );
